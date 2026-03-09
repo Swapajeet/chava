@@ -1,0 +1,46 @@
+<!-- Record Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content shadow-lg border-0 rounded-4">
+
+<!-- Header -->
+<div class="modal-header bg-success text-white">
+<h5 class="modal-title">Record Payment</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<form action="/membership/<%= meberstudent._id %>" method="POST">
+
+<div class="modal-body p-4">
+
+<!-- Amount -->
+<div class="mb-3">
+<label class="form-label fw-semibold">Amount (₹)</label>
+<input type="number" name="payment[amount]" class="form-control form-control-lg" placeholder="Enter amount" required>
+</div>
+
+<!-- Payment Date -->
+<div class="mb-3">
+<label class="form-label fw-semibold">Payment Date</label>
+<input type="date" name="payment[paymentDate]" class="form-control form-control-lg" required>
+</div>
+
+<!-- Notes -->
+<div class="mb-3">
+<label class="form-label fw-semibold">Notes</label>
+<input type="text" name="payment[notes]" class="form-control form-control-lg" placeholder="Cash / UPI / Card">
+</div>
+
+</div>
+
+<div class="modal-footer border-0 px-4 pb-4">
+<button type="submit" class="btn btn-success w-100 btn-lg">
+💰 Record Payment
+</button>
+</div>
+
+</form>
+
+</div>
+</div>
+</div>

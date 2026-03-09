@@ -1,0 +1,79 @@
+<% layout("layout/boilerplate") -%>
+
+<div class="container-fluid">
+<div class="row">
+
+<!-- Sidebar -->
+<div class="col-md-2 sidebar p-4">
+    <%- include("../includes/sidebar.ejs") %>
+</div>
+
+<!-- Main Content -->
+<div class="col-md-10 p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="fw-bold">Students</h2>
+            <p class="text-muted">Manage your gym members.</p>
+        </div>
+        <a href="/students/new" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Add Student
+        </a>
+    </div>
+
+    <!-- Search -->
+    <form method="GET" action="/students">
+        <div class="input-group mb-4 w-50">
+            <span class="input-group-text bg-white">
+                <i class="bi bi-search"></i>
+            </span>
+            
+        </div>
+    </form>
+
+    <!-- Table -->
+    <div class="table-box shadow-sm">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Village</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% for(let student of allstudent){ %>
+                    <tr>
+                        <td>
+                            <i class="bi bi-person-circle me-2 text-secondary"></i>
+                            <%= student.fullName %>
+                        </td>
+                        <td><%= student.mobile %></td>
+                        <td><%= student.city %></td>
+                        <td>
+                            <span class="status-active">
+                                <%= student.status%>
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <a href="/students/<%= student._id %>" class="btn btn-sm btn-outline-secondary">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                <% } %>
+
+            </tbody>
+        </table>
+
+        <% if(allstudent.length === 0){ %>
+            <p class="text-center text-muted">No students found.</p>
+        <% } %>
+    </div>
+
+</div>
+</div>
+</div>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Membership Expired</title>
+<style>
+body{
+    font-family: Arial;
+    background:#f4f4f4;
+    padding:20px;
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:8px;
+    text-align:center;
+}
+
+.header{
+    background:#ef4444;
+    color:white;
+    padding:15px;
+    border-radius:5px;
+    font-size:22px;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:#22c55e;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.footer{
+    margin-top:20px;
+    color:#666;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+Membership Expired
+</div>
+
+<h2>Hello <%= name %></h2>
+
+<p>Your Gym Membership has expired.</p>
+
+<p>Please renew your membership to continue your fitness journey.</p>
+
+<a href="http://localhost:3000" class="btn">Renew Membership</a>
+
+<div class="footer">
+Chava Gym<br>
+Stay Fit 💪
+</div>
+
+</div>
+
+</body>
+</html>

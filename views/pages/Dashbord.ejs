@@ -1,0 +1,152 @@
+<% layout("layout/boilerplate") -%>
+
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-2 sidebar p-4">
+    <%- include("../includes/sidebar.ejs") %>
+</div>
+<!-- Sidebar -->
+
+<!-- Main Content -->
+
+<div class="col-md-10 p-4">
+
+<h2 class="fw-bold">Dashboard</h2>
+<p class="text-muted">Overview of your gym's performance.</p>
+
+
+<div class="row g-4 mt-2">
+
+<!-- Active Students -->
+
+<div class="col-md-3">
+<div class="card card-box p-3">
+<div class="d-flex justify-content-between align-items-center">
+<div>
+<p class="text-muted mb-1">Active Students</p>
+
+<h4> <%= activeStudents %></h4>
+</div>
+
+<div class="icon-box bg-primary text-white">
+👥
+</div>
+
+</div>
+</div>
+</div>
+
+
+<!-- Monthly Income -->
+
+<div class="col-md-3">
+<div class="card card-box p-3">
+<div class="d-flex justify-content-between align-items-center">
+
+<div>
+<p class="text-muted mb-1">Monthly Income</p>
+   
+<h4><%= monthlyIncome[0] ? monthlyIncome[0].total : 0 %></h4>
+</div>
+
+<div class="icon-box bg-success text-white">
+💰
+</div>
+
+</div>
+</div>
+</div>
+
+
+<!-- Expiring Soon -->
+
+<div class="col-md-3">
+<div class="card card-box p-3">
+
+<div class="d-flex justify-content-between align-items-center">
+
+<div>
+<p class="text-muted mb-1">Expiring Soon</p>
+<h4><%=expiringCount%></h4>
+</div>
+
+<div class="icon-box bg-warning text-white">
+⏰
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- Unpaid Fees -->
+
+<div class="col-md-3">
+<div class="card card-box p-3">
+
+<div class="d-flex justify-content-between align-items-center">
+
+<div>
+<p class="text-muted mb-1">Unpaid Fees</p>
+<h4><%=unpaidCount%></h4>
+</div>
+
+<div class="icon-box bg-danger text-white">
+⚠
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+<!-- Bottom Cards -->
+
+<div class="row g-4 mt-3">
+
+<div class="col-md-6">
+<div class="card p-4 card-box">
+
+<h5>Expiring Soon</h5>
+<% for(let membership of expiringMemberships){ %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<div>
+<p class="mb-1"><%= membership.studentId.fullName %></p>
+<small class="text-muted">
+Expires on <%= membership.endDate.toDateString() %>
+</small>
+<%}%>
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="card p-4 card-box">
+
+<h5> unpayed Payments</h5>
+<% for(let membership of expiringMemberships){ %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<div>
+<p class="mb-1"><%= membership.studentId.fullName %></p>
+<small class="text-muted">
+Expires on <%= membership.endDate.toDateString() %>
+</small>
+<%}%>
+
+
+</div>
+</div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Student</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f3f4f6;
+}
+
+/* container card */
+.container{
+    width:500px;
+    margin:60px auto;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* heading */
+.container h2{
+    margin-bottom:20px;
+    color:#1f2937;
+}
+
+/* labels */
+label{
+    font-size:14px;
+    color:#374151;
+}
+
+/* inputs */
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin-top:6px;
+    margin-bottom:15px;
+    border:1px solid #d1d5db;
+    border-radius:6px;
+    font-size:14px;
+}
+
+/* focus effect */
+input:focus, textarea:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 2px rgba(37,99,235,0.15);
+}
+
+/* button */
+button{
+    width:100%;
+    background:#2563eb;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    font-size:15px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+</style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container col-6 offset-3">
+
+<h2>Add Student</h2>
+
+<form action="/students" method="POST" enctype="multipart/form-data">
+
+<label>Full Name</label>
+<input type="text" name="Student[fullName]" required>
+
+<label>Mobile</label>
+<input type="text" name="Student[mobile]" pattern="[0-9]{10}" required>
+
+<label>Email</label>
+<input type="email" name="Student[email]" required>
+
+<label>City</label>
+<input type="text" name="Student[city]" required>
+
+<label>Date of Birth</label>
+<input type="date" name="Student[dob]" required>
+ <div class="md-3">
+           <label for="image" class="form-label">upload Images</label>
+          <input type="file"
+           name="Student[image]"
+            class="form-control">
+
+        </div>
+
+<label>Address</label>
+<textarea name="Student[address]" rows="3" required></textarea>
+
+<button type="submit">Add Student</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

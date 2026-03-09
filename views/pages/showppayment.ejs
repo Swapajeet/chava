@@ -1,0 +1,45 @@
+<% layout("layout/boilerplate") -%>
+
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-2 sidebar p-4">
+    <%- include("../includes/sidebar.ejs") %>
+</div>
+
+<div class="col-md-10 p-4">
+
+<h2 class="fw-bold">Payment History</h2>
+<p class="text-muted">Track all income transactions.</p>
+
+<table class="table mt-3">
+
+<thead>
+<tr>
+<th>Date</th>
+<th>Amount</th>
+<th>Membership ID</th>
+<th>Notes</th>
+</tr>
+</thead>
+
+<tbody>
+
+<% memberships.forEach(m => { %>
+
+<tr>
+<td><%= new Date(m.Payment.paymentDate).toDateString() %></td>
+<td class="text-success">₹<%= m.Payment.amount %></td>
+<td><%= m._id %></td>
+<td><%= m.Payment.notes %></td>
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+</div>
+</div>
+</div>
