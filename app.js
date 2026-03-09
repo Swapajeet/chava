@@ -188,7 +188,7 @@ app.get("/dashbord",async(req,res)=>{
     await sendExpireMail(student.email, student.fullName);
     }
 
-    res.render("pages/dashbord",
+    res.render("pages/Dashbord",
     {activeStudents,
      monthlyIncome,
     expiringCount,
