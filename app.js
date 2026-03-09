@@ -211,7 +211,15 @@ res.redirect("/student");
 
 });
 
-
+app.get("/demouser",async(req,res)=>{
+    let owner = new User({
+        email:"Chhava.Fitness.Center.Visapur@gmail.com",
+       username:"CHHAVA3333",
+    });
+    let Registeruser = await User.register(owner,"helloworld");
+    res.send(Registeruser);
+     
+ });
 
 app.get("/login",(req,res)=>{
     
