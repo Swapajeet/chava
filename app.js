@@ -257,7 +257,7 @@ const memberships = await Membership.find({
     Payment: { $ne: null }   
 }).populate("Payment");
 
-res.render("pages/showppayment",{memberships});
+res.render("pages/showppayment.ejs",{memberships});
 
 });
 app.listen(8080, () => {
