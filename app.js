@@ -132,7 +132,7 @@ app.post("/membership/:id",async(req,res)=>{
     let mebership = await Membership.findById(req.params.id)
     const pay = req.body.payment;
     const newpayment = new payment(req.body.payment);
-       mebership.Payment = newpayment;
+       mebership.Payment = newpayment._id;
       await newpayment.save();
      const paydata = await mebership.save();
      res.redirect("/student")
@@ -163,13 +163,13 @@ app.get("/dashbord",async(req,res)=>{
 
 
       const unpaidMemberships = await Membership.find({
-        $or:[
-       {paymentId:null},
-      {paymentId:""}
-        ]
-     });
+  Payment: null
+});
+     console.log(unpaidMemberships);
       const expiringCount = expiringMemberships.length;
      const unpaidCount = unpaidMemberships.length;
+
+
        async function sendExpireMail(email, name) {
      await transporter.sendMail({
        from: process.env.EMAIL_USER,
@@ -256,6 +256,8 @@ app.get("/showpayment", async (req,res)=>{
 const memberships = await Membership.find({
     Payment: { $ne: null }   
 }).populate("Payment");
+
+// console.log(memberships);   // 👈 add this
 
 res.render("pages/showppayment.ejs",{memberships});
 

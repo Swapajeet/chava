@@ -28,10 +28,23 @@
 <% memberships.forEach(m => { %>
 
 <tr>
-<td><%= new Date(m.Payment.paymentDate).toDateString() %></td>
-<td class="text-success">₹<%= m.Payment.amount %></td>
+
+<td>
+<%= m.Payment && m.Payment.paymentDate 
+? new Date(m.Payment.paymentDate).toLocaleDateString() 
+: "-" %>
+</td>
+
+<td class="text-success fw-bold">
+₹<%= m.Payment ? m.Payment.amount : 0 %>
+</td>
+
 <td><%= m._id %></td>
-<td><%= m.Payment.notes %></td>
+
+<td>
+<%= m.Payment ? m.Payment.notes : "-" %>
+</td>
+
 </tr>
 
 <% }) %>

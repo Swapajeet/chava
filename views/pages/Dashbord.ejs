@@ -128,14 +128,52 @@ Expires on <%= membership.endDate.toDateString() %>
 <div class="card p-4 card-box">
 
 <h5> unpayed Payments</h5>
-<% for(let membership of expiringMemberships){ %>
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="card shadow-sm border-0 unpaid-card">
+<div class="card-body">
+
+<h5 class="fw-bold mb-3 text-danger">
+⚠️ Unpaid Memberships
+</h5>
+
+<% for(let membership of unpaidMemberships){ %>
+
+<div class="unpaid-item d-flex justify-content-between align-items-center">
+
 <div>
-<p class="mb-1"><%= membership.studentId.fullName %></p>
+<p class="member-name mb-1">
+👤 <%= membership.fullName %>
+</p>
+
 <small class="text-muted">
-Expires on <%= membership.endDate.toDateString() %>
+
+<% if(membership && membership.endDate){ %>
+
+📅 Expires on 
+<span class="expiry-date">
+<%= new Date(membership.endDate).toDateString() %>
+</span>
+
+<% } else { %>
+
+<span class="text-secondary">No expiry date</span>
+
+<% } %>
+
 </small>
-<%}%>
+</div>
+
+<span class="badge bg-danger px-3 py-2">
+Unpaid
+</span>
+
+</div>
+
+<hr>
+
+<% } %>
+
+</div>
+</div>
 
 
 </div>
