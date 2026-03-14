@@ -6,7 +6,7 @@ const upload = multer({ storage });
 const studentcontroller = require("../controllers/student.js");
 
 
-route.get("/student",studentcontroller.index);
+route.get("/students",studentcontroller.index);
 
 route.get("/students/new",studentcontroller.newform);
 
