@@ -42,7 +42,7 @@ module.exports.newstudent = async (req, res) => {
 
   console.log(savedStudent);
 
-  res.redirect("/student");
+  res.redirect("/students");
 };
 
 module.exports.account = async(req,res)=>{
