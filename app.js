@@ -128,76 +128,105 @@ app.get("/membership/:id/payment",async(req,res)=>{
      
 });
 
-app.post("/membership/:id",async(req,res)=>{
-    let mebership = await Membership.findById(req.params.id)
-    const pay = req.body.payment;
+// ================= PAYMENT ROUTE FIX =================
+app.post("/membership/:id", async (req, res) => {
+
+  let membership = await Membership.findById(req.params.id);
+
+  if (!membership) {
+    return res.send("Membership not found");
+  }
+
+  // 🔥 Duplicate रोक
+  if (membership.Payment) {
+    req.flash("error", "Payment already done!");
+    return res.redirect("/students");
+  }
+
+  try {
     const newpayment = new payment(req.body.payment);
-       mebership.Payment = newpayment._id;
-      await newpayment.save();
-     const paydata = await mebership.save();
-     res.redirect("/student")
+
+    // ✅ Save payment first
+    await newpayment.save();
+
+    // ✅ Link with membership
+    membership.Payment = newpayment._id;
+    await membership.save();
+
+    req.flash("success", "Payment added successfully!");
+    res.redirect("/showpayment");
+
+  } catch (err) {
+    console.log(err);
+    res.send("Error in payment");
+  }
 });
 
 // dashbord
-app.get("/dashbord",async(req,res)=>{
-    let activeStudents = await Student.countDocuments({ status: "Active" });
-   let monthlyIncome = await payment.aggregate([
-  {
-    $group: {
-      _id: null,
-      total: { $sum: "$amount" }
+app.get("/dashbord", async (req, res) => {
+
+  let activeStudents = await Student.countDocuments({ status: "Active" });
+
+  let monthlyIncome = await payment.aggregate([
+    {
+      $group: {
+        _id: null,
+        total: { $sum: "$amount" }
+      }
+    }
+  ]);
+
+  const today = new Date();
+  const fiveDaysLater = new Date();
+  fiveDaysLater.setDate(today.getDate() + 5);
+
+  // 🔥 IMPORTANT FIX
+  const students = await Student.find().populate("Membership");
+
+  let expiringMemberships = [];
+  let expiringCount = 0;
+
+  for (let student of students) {
+    if (student.Membership && student.Membership.endDate) {
+      
+      let end = new Date(student.Membership.endDate);
+
+      if (end >= today && end <= fiveDaysLater) {
+        expiringMemberships.push(student);
+        expiringCount++;
+
+        // ✅ MAIL SEND
+        if (student.email) {
+          await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: student.email,
+            subject: "Membership Expiring Soon",
+            html: `
+              <h2>Hello ${student.fullName}</h2>
+              <p>Your Gym Membership will expire soon.</p>
+              <b>Renew soon!</b>
+            `
+          });
+        }
+      }
     }
   }
-]);
 
-    const today = new Date();
-    const fiveDaysLater = new Date();
-    fiveDaysLater.setDate(today.getDate()+5);
+  const unpaidMemberships = await Membership.find({
+    Payment: null
+  });
 
-    const expiringMemberships = await Membership.find({
-    endDate:{
-    $gte:today,
-      $lte:fiveDaysLater
-     }
-      }).populate("student");
+  const unpaidCount = unpaidMemberships.length;
 
-
-      const unpaidMemberships = await Membership.find({
-  Payment: null
-});
-     console.log(unpaidMemberships);
-      const expiringCount = expiringMemberships.length;
-     const unpaidCount = unpaidMemberships.length;
-
-
-       async function sendExpireMail(email, name) {
-     await transporter.sendMail({
-       from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Membership Expired",
-      html: `
-      <h2>Hello ${name}</h2>
-      <p>Your Gym Membership has expired today.</p>
-      <p>Please renew your membership.</p>
-      <b>Chava Gym</b>
-    `,
-   });
-
-
-    }
-    for (let student of expiringMemberships) {
-    await sendExpireMail(student.email, student.fullName);
-    }
-
-    res.render("pages/Dashbord",
-    {activeStudents,
-     monthlyIncome,
+  res.render("pages/Dashbord", {
+    activeStudents,
+    monthlyIncome,
     expiringCount,
-     expiringMemberships,
-     unpaidCount,
-   unpaidMemberships
+    expiringMemberships,
+    unpaidCount,
+    unpaidMemberships
+  });
 
-   });
 });
 
 app.put("/students/status/:id", async (req, res) => {
@@ -208,7 +237,7 @@ student.status = student.status === "Active" ? "Inactive" : "Active";
 
 await student.save();
 
-res.redirect("/student");
+res.redirect("/students");
 
 });
 
@@ -250,18 +279,25 @@ app.get("/logout",(req,res,next)=>{
     });
     });
 
-//  payment pag
-app.get("/showpayment", async (req,res)=>{
+// //  payment pag
+// app.get("/showpayment", async (req,res)=>{
 
-const memberships = await Membership.find({
-    Payment: { $ne: null }   
-}).populate("Payment");
+// const memberships = await Membership.find({
+//     Payment: { $ne: null }   
+// }).populate("Payment");
 
 // console.log(memberships);   // 👈 add this
 
-res.render("pages/showppayment.ejs",{memberships});
+// ================= SHOW PAYMENT PAGE FIX =================
+app.get("/showpayment", async (req, res) => {
 
+  const memberships = await Membership.find()
+    .populate("Payment")
+    // .populate("student"); // optional
+
+  res.render("pages/showppayment.ejs", { memberships });
 });
+
 app.listen(8080, () => {
     console.log("Server is running on port 8080");
 });

@@ -1,92 +1,109 @@
-
 <style>
 
-/* Modal Card */
+/* Clean Modal */
 #paymentModal .modal-content{
-border-radius:20px;
-overflow:hidden;
-border:none;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  border-radius:16px;
+  border:none;
+  box-shadow:0 8px 30px rgba(0,0,0,0.12);
 }
 
 /* Header */
 #paymentModal .modal-header{
-background:linear-gradient(135deg,#0d6efd,#4da3ff);
-color:white;
-border-bottom:none;
+  background:white;
+  border-bottom:1px solid #eee;
+  padding:16px 20px;
+}
+
+#paymentModal .modal-title{
+  font-size:16px;
+  font-weight:600;
+  color:#111;
+}
+
+/* Body */
+#paymentModal .modal-body{
+  padding:20px;
 }
 
 /* Labels */
 #paymentModal label{
-font-size:14px;
-color:#0d6efd;
-font-weight:600;
+  font-size:12px;
+  font-weight:600;
+  color:#6c757d;
+  margin-bottom:6px;
 }
 
 /* Inputs */
 #paymentModal .form-control{
-border-radius:12px;
-padding:12px;
-transition:0.3s;
-border:1px solid #cfe2ff;
+  border-radius:10px;
+  padding:10px 12px;
+  border:1px solid #ddd;
+  font-size:14px;
+  transition:0.2s;
 }
 
 #paymentModal .form-control:focus{
-border-color:#0d6efd;
-box-shadow:0 0 8px rgba(13,110,253,0.3);
+  border-color:#0d6efd;
+  box-shadow:none;
 }
 
 /* Button */
 #paymentModal .btn-primary{
-border-radius:12px;
-font-weight:600;
-transition:0.3s;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:600;
+  padding:10px;
+  background:#0d6efd;
+  border:none;
 }
 
 #paymentModal .btn-primary:hover{
-transform:translateY(-2px);
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
+  background:#0b5ed7;
+}
+
+/* Footer */
+#paymentModal .modal-footer{
+  border-top:1px solid #eee;
+  padding:16px 20px;
 }
 
 </style>
-<!-- Record Payment Modal -->
+
+<!-- MODAL -->
 <div class="modal fade" id="paymentModal" tabindex="-1">
 <div class="modal-dialog modal-dialog-centered">
-<div class="modal-content shadow-lg border-0 rounded-4">
+<div class="modal-content">
 
 <!-- Header -->
-<div class="modal-header bg-primary text-white">
-<h5 class="modal-title">💳 Record Payment</h5>
-<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<div class="modal-header">
+<h5 class="modal-title">Record Payment</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 </div>
 
-<form action="/membership/<%= meberstudent._id %>" method="POST">
+<form id="paymentForm" action="/membership/<%= meberstudent._id %>" method="POST">
 
-<div class="modal-body p-4 bg-light">
+<div class="modal-body">
 
-<!-- Amount -->
 <div class="mb-3">
-<label class="form-label fw-semibold text-primary">Amount (₹)</label>
-<input type="number" name="payment[amount]" class="form-control form-control-lg border-primary" placeholder="Enter amount" required>
+<label>Amount (₹)</label>
+<input type="number" name="payment[amount]" class="form-control" placeholder="Enter amount" required>
 </div>
 
-<!-- Payment Date -->
 <div class="mb-3">
-<label class="form-label fw-semibold text-primary">Payment Date</label>
-<input type="date" name="payment[paymentDate]" class="form-control form-control-lg border-primary" required>
+<label>Payment Date</label>
+<input type="date" name="payment[paymentDate]" class="form-control" required>
 </div>
 
-<!-- Notes -->
 <div class="mb-3">
-<label class="form-label fw-semibold text-primary">Notes</label>
-<input type="text" name="payment[notes]" class="form-control form-control-lg border-primary" placeholder="Cash / UPI / Card">
+<label>Notes</label>
+<input type="text" name="payment[notes]" class="form-control" placeholder="Cash / UPI / Card">
 </div>
 
 </div>
 
-<div class="modal-footer border-0 px-4 pb-4 bg-white">
-<button type="submit" class="btn btn-primary w-100 btn-lg shadow-sm">
-💰 Record Payment
+<div class="modal-footer">
+<button type="submit" id="payBtn" class="btn btn-primary w-100">
+Save Payment
 </button>
 </div>
 
@@ -95,3 +112,13 @@ box-shadow:0 6px 15px rgba(0,0,0,0.15);
 </div>
 </div>
 </div>
+
+<script>
+const form = document.getElementById("paymentForm");
+const btn = document.getElementById("payBtn");
+
+form.addEventListener("submit", function () {
+  btn.disabled = true;
+  btn.innerText = "Saving...";
+});
+</script>

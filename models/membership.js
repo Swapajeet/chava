@@ -28,7 +28,11 @@ const membershipSchema = new Schema({
     Payment:{
          type: Schema.Types.ObjectId,
          ref:"Payment"
-    }
+    },
+    // student: {
+    // type: Schema.Types.ObjectId,
+    // ref: "Student"
+  
 
 }, { timestamps: true });
 
